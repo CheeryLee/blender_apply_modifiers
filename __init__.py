@@ -18,27 +18,28 @@
 #
 
 import bpy
+from . import apply_modifiers
 
-class ApplyModifiers(bpy.types.Operator):
-    bl_idname = "object.apply_modifiers"
-    bl_label = "Apply modifiers"
-    bl_description = "Apply all modifiers on selected objects"
-    
-    def __init__(self):
-        print("\"Apply Modifiers\" class registered")
+bl_info = {
+    "name": "Apply Modifiers",
+    "author": "Alexander Pluzhnikov",
+    "version": (1, 1),
+    "blender": (2, 80, 0),
+    "location": "View3D > Apply",
+    "description": "Apply all modifiers on selected objects",
+    "wiki_url": "https://github.com/CheeryLee/blender_apply_modifiers",
+    "category": "Object",
+}
 
-    def execute(self, context):
-        for obj in bpy.context.selected_objects:
-            bpy.context.view_layer.objects.active = obj
-            for mod in obj.modifiers:
-                name = mod.name
-                bpy.ops.object.modifier_apply(modifier = name)
+def register():
+    bpy.utils.register_class(apply_modifiers.ApplyModifiers)
+    bpy.types.VIEW3D_MT_object_apply.prepend(apply_modifiers.menu_func)
+    print("Addon \"Apply Modifiers\" enabled")
 
-        return {'FINISHED'}
-    
-    def invoke(self, context, event):
-        return self.execute(context)
+def unregister():
+    bpy.utils.unregister_class(apply_modifiers.ApplyModifiers)
+    bpy.types.VIEW3D_MT_object_apply.remove(apply_modifiers.menu_func)
+    print("Addon \"Apply Modifiers\" disabled")
 
-def menu_func(self, context):
-    self.layout.operator("object.apply_modifiers")
-    self.layout.separator()
+if __name__ == "__main__":
+    register()
