@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2018 Alexander "CheeryLee" Pluzhnikov
+# Copyright (c) 2018 - 2020 Alexander "CheeryLee" Pluzhnikov
 # 
 # This file is part of blender_apply_modifiers.
 # 
